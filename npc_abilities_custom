@@ -1,0 +1,741 @@
+// Dota2 Editor
+// Get latest version: https://github.com/zombieJ/nw-dota2editor
+
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	// 在空中飞行程度的能力
+	"hero_th06_reimu_D_00"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_NONE"
+		"SpellImmunityType"	"SPELL_IMMUNITY_ALLIES_YES"
+		"AbilityType"	"DOTA_ABILITY_TYPE_BASIC"
+		"HotKeyOverride"	"D"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"5"
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"Target"	"CASTER"
+				"ModifierName"	"modifier_hero_ability_th06_reimu_D_01"
+			}
+			"RunScript"
+			{
+				"Target"	"CASTER"
+				"Function"	"upskill"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_hero_ability_th06_reimu_D_00"
+			{
+				"Passive"	"1"
+				"IsHidden"	"1"
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE"	"400"
+				}
+				"IsBuff"	"1"
+				"IsDebuff"	"0"
+				"IsPurgable"	"0"
+				"States"	{}
+			}
+			"modifier_hero_ability_th06_reimu_D_01"
+			{
+				"Duration"	"5"
+				"IsBuff"	"1"
+				"IsHidden"	"1"
+				"Properties"	{}
+				"States"
+				{
+					"MODIFIER_STATE_FLYING"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"OnDestroy"
+				{
+					"RunScript"
+					{
+						"Target"	"CASTER"
+						"ScriptFile"	"scripts/vscripts/hero_ability_function.lua"
+						"Function"	"DestroyTrees"
+					}
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"movespeed"	"550"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"duration_time"	"3"
+			}
+		}
+	}
+
+	// 御札
+	"hero_th06_reimu_Q_00"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"泉-头像"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"	"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityType"	"DOTA_ABILITY_TYPE_BASIC"
+		"HotKeyOverride"	"Q"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"2"
+		"AbilityManaCost"	"10"
+		"AbilityChannelTime"	"1.4"
+		"OnChannelFinish"
+		{
+			"RunScript"
+			{
+				"Target"	"POINT"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+				"Function"	"reimu_q_00_onChannelFinsh"
+			}
+		}
+		"OnProjectileHitUnit"
+		{
+			"Damage"
+			{
+				"Target"	"TARGET"
+				"Damage"	"100"
+				"Type"	"DAMAGE_TYPE_MAGICAL"
+			}
+			"DeleteOnHit"	"0"
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"96"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_FLOAT"
+				"channel_time"	"0.1 96 96"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"duration_time"	"96 96 96"
+			}
+		}
+	}
+
+	// 扩散护符
+	"hero_th06_reimu_Q_01"
+	{
+		"BaseClass"	"ability_lua"
+		"AbilityTextureName"	"holdout_blade_fury"
+		"ScriptFile"	"hero_th06_reimu_Q_01"
+		// General
+		// -------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_ALL"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
+		"SpellImmunityType"	"SPELL_IMMUNITY_ENEMIES_NO"
+		"FightRecapLevel"	"1"
+		"HotKeyOverride"	"Q"
+		"MaxLevel"	"1"
+		"AbilityCastPoint"	"0"
+		// Time
+		// -------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"	"1"
+		// Cost
+		// -------------------------------------------------------------------------------------------------------------
+		"AbilityManaCost"	"10"
+		// Casting
+		// -------------------------------------------------------------------------------------------------------------
+		"AbilityCastRange"	"1000"
+		"AbilityChannelTime"	"1.4"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"delay_time"	"96"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage_large"	"96"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage_tiny"	"96"
+			}
+			"04"
+			{
+				"var_type"	"FIELD_FLOAT"
+				"channel_time"	"0.1 96 96"
+			}
+			"05"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"amount_large"	"1 2 3"
+			}
+		}
+	}
+
+	// 博丽护符
+	"hero_th06_reimu_Q_02"
+	{
+		"BaseClass"	"ability_lua"
+		"AbilityTextureName"	"holdout_battle_rage"
+		"ScriptFile"	"hero_th06_reimu_Q_02"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_ALL"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"HotKeyOverride"	"Q"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"1"
+		"AbilityManaCost"	"10"
+		"AbilityCastRange"	"1000"
+		"AbilityChannelTime"	"1.4"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"96"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"ballistic_speed"	"96"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_FLOAT"
+				"channel_time"	"0.1 96 96"
+			}
+			"04"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"amount"	"2 4 6"
+			}
+		}
+	}
+
+	// 妖怪破坏者
+	"hero_th06_reimu_Q_03"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"holdout_fiery_soul"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"SpellImmunityType"	"SPELL_IMMUNITY_ENEMIES_NO"
+		"AbilityType"	"DOTA_ABILITY_TYPE_BASIC"
+		"HotKeyOverride"	"Q"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"1"
+		"AbilityManaCost"	"1"
+		"AbilityChannelTime"	"1.4"
+		"OnChannelFinish"
+		{
+			"RunScript"
+			{
+				"Target"	"POINT"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+				"Function"	"reimu_q_03_onChannelFinsh"
+			}
+		}
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"	"1"
+			"Damage"
+			{
+				"Target"	"TARGET"
+				"Type"	"DAMAGE_TYPE_MAGICAL"
+				"Damage"	"100"
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"96"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"ballistic_speed"	"96"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_FLOAT"
+				"channel_time"	"0.1 96 96"
+			}
+			"04"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"amount"	"1 3 5"
+			}
+		}
+	}
+
+	// 升天脚
+	"hero_th06_reimu_W_00"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_ALL"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"HotKeyOverride"	"W"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"1"
+		"AbilityManaCost"	"1"
+		"OnSpellStart"
+		{
+			"Knockback"
+			{
+				"Target"	"TARGET"
+				"Height"	"300"
+				"ShouldStun"	"0"
+				"IsFixedDistance"	"1"
+				"Duration"	"0.5"
+				"Distance"	"0"
+			}
+			"ApplyModifier"
+			{
+				"Target"	"TARGET"
+				"ModifierName"	"modifier_hero_th06_reimu_W_00"
+			}
+			"RunScript"
+			{
+				"Target"	"CASTER"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+				"Function"	"reimu_w_00_onSpellStart"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_hero_th06_reimu_W_00"
+			{
+				"Duration"	"3"
+				"IsDebuff"	"1"
+				"IsPurgable"	"1"
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"96"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_FLOAT"
+				"hang_time"	"0.8"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"dizzy_time"	"1.6"
+			}
+		}
+	}
+
+	// 封魔亚空穴
+	"hero_th06_reimu_E_00"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityType"	"DOTA_ABILITY_TYPE_BASIC"
+		"HotKeyOverride"	"E"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"1"
+		"AbilityManaCost"	"1"
+		"AbilityCastRange"	"1000"
+		"AOERadius"	"500"
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"	"POINT"
+				"Function"	"reimu_e_00_onSpellStart"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+			}
+		}
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"	"1"
+			"Damage"
+			{
+				"Target"	"TARGET"
+				"Type"	"DAMAGE_TYPE_MAGICAL"
+				"Damage"	"50"
+			}
+			"ApplyModifier"
+			{
+				"Target"	"TARGET"
+				"ModifierName"	"modifier_hero_th06_reimu_E_00"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_hero_th06_reimu_E_00"
+			{
+				"Duration"	"3"
+				"IsDebuff"	"1"
+				"IsPurgable"	"0"
+				"Properties"	{}
+				"States"
+				{
+					"MODIFIER_STATE_SILENCED"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"96"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"silence_time"	"96"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"throwing_range"	"96"
+			}
+			"04"
+			{
+				"var_type"	"FIELD_FLOAT"
+				"delay_time"	"0.7"
+			}
+		}
+	}
+
+	// 常置阵
+	"hero_th06_reimu_R_00"
+	{
+		"BaseClass"	"ability_datadriven"
+		"ScriptFile"	"hero_th06_reimu_R_00"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_ALL"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"HotKeyOverride"	"R"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"1"
+		"AbilityManaCost"	"1"
+		"precache"
+		{
+			"particle"	"particles/units/heroes/hero_lina/lina_spell_dragon_slave.vpcf"
+		}
+		"OnSpellStart"
+		{
+			"LinearProjectile"
+			{
+				"Target"	"POINT"
+				"MoveSpeed"	"1000"
+				"StartRadius"	"64"
+				"EndRadius"	"64"
+				"TargetTeams"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+				"TargetTypes"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+				"EffectName"	"particles/units/heroes/hero_lina/lina_spell_dragon_slave.vpcf"
+			}
+			"RunScript"
+			{
+				"Target"	"CASTER"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+				"Function"	"reimu_r_00_onSpellStart"
+			}
+		}
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"	"1"
+			"Damage"
+			{
+				"Target"	"TARGET"
+			}
+			"ApplyModifier"
+			{
+				"Target"	"TARGET"
+				"ModifierName"	"modifier_hero_th06_reimu_R_00"
+			}
+		}
+		"OnProjectileFinish"
+		{
+			"RunScript"
+			{
+				"Target"	"POINT"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+				"Function"	"reimu_r_00_onProjectilOver"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_hero_th06_reimu_R_00"
+			{
+				"IsDebuff"	"1"
+				"Duration"	"3"
+				"IsPurgable"	"1"
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"96"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"dizzy_time_hit"	"1"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"dizzy_time_explosion"	"2"
+			}
+			"04"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"explosion_range"	"96"
+			}
+			"05"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"duration_time"	"30"
+			}
+		}
+	}
+
+	// 梦想封印
+	"hero_th06_reimu_F_00"
+	{
+		"BaseClass"	"ability_lua"
+		"ScriptFile"	"hero_th06_reimu_F_00"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_ALL"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"HotKeyOverride"	"F"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"5"
+		"AbilityManaCost"	"1"
+		"AOERadius"	"500"
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"damage"	"96"
+			}
+			"02"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"amount"	"12"
+			}
+			"03"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"speed_cut_percentage"	"80"
+			}
+			"04"
+			{
+				"var_type"	"FIELD_INTEGER"
+				"duration_time"	"3"
+			}
+		}
+	}
+
+	// 梦想封印·寂
+	"hero_th06_reimu_F_01"
+	{
+		"BaseClass"	"ability_lua"
+		"AbilityTextureName"	"templar_assassin_refraction_holdout"
+		"ScriptFile"	"hero_th06_reimu_F_01"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"HotKeyOverride"	"F"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"5"
+		"AbilityManaCost"	"1"
+	}
+
+	"unit_vest_base"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"Modifiers"
+		{
+			"modifier_unit_vest_base"
+			{
+				"Passive"	"1"
+				"Properties"	{}
+				"States"
+				{
+					"MODIFIER_STATE_INVULNERABLE"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_HEALTH_BAR"	"MODIFIER_STATE_VALUE_ENABLED"
+					"MODIFIER_STATE_NO_UNIT_COLLISION"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+	}
+
+	// 梦想封印·瞬
+	"hero_th06_reimu_F_02"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"holdout_voodoo"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"HotKeyOverride"	"F"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"5"
+		"AbilityManaCost"	"1"
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"	"TARGET"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+				"Function"	"reimu_f_02_onSpellStart"
+			}
+			"Blink"
+			{
+				"Target"	"TARGET"
+			}
+			"Knockback"
+			{
+				"Target"	"TARGET"
+				"Duration"	"1"
+				"Height"	"1000"
+				"IsFixedDistance"	"0"
+				"ShouldStun"	"0"
+			}
+			"Stun"
+			{
+				"Target"	"TARGET"
+				"Duration"	"3"
+			}
+		}
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"	"1"
+			"Damage"
+			{
+				"Target"	"TARGET"
+				"Damage"	"100"
+				"Type"	"DAMAGE_TYPE_MAGICAL"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_hero_th06_reimu_F_02"
+			{
+				"Properties"	{}
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+				"Duration"	"3"
+			}
+		}
+	}
+
+	// 梦想封印·侘
+	"hero_th06_reimu_F_03"
+	{
+		"BaseClass"	"ability_datadriven"
+		"AbilityTextureName"	"holdout_scourge_ward"
+		"ScriptFile"	"hero_th06_reimu_F_03"
+		"AbilityBehavior"	"DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC | DOTA_UNIT_TARGET_ALL"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"HotKeyOverride"	"F"
+		"MaxLevel"	"1"
+		"AbilityCooldown"	"5"
+		"AbilityManaCost"	"1"
+		"AOERadius"	"1000"
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"Target"	"POINT"
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+				"Function"	"reimu_f_03_onSpellStart"
+			}
+			"ApplyMotionController"
+			{
+				"Target"
+				{
+					"Center"	"POINT"
+					"Teams"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+					"Types"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+					"Radius"	"1000"
+				}
+				"ScriptFile"	"scripts/vscripts/hero_th06_reimu_ability.lua"
+				"Duration"	"5"
+				"HorizontalControlFunction"	"reimu_f_03_apply_motion_control"
+				"VerticalControlFunction"	"reimu_f_03_apply_motion_control"
+			}
+			"DelayedAction"
+			{
+				"Action"
+				{
+					"ApplyModifier"
+					{
+						"Target"
+						{
+							"Center"	"POINT"
+							"Radius"	"600"
+							"Teams"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+							"Types"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+						}
+						"ModifierName"	"modifier_hero_th06_reimu_F_03"
+					}
+				}
+				"Delay"	"5"
+			}
+		}
+		"Modifiers"
+		{
+			"modifier_hero_th06_reimu_F_03"
+			{
+				"Duration"	"3"
+				"IsDebuff"	"1"
+				"States"
+				{
+					"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
+				}
+			}
+		}
+	}
+}
